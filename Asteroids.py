@@ -312,7 +312,6 @@ while running == True:
 
     keys = pygame.key.get_pressed()
     player.player_input()
-    print(bullets)
     
     redrawGameWindow()
 
