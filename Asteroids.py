@@ -200,7 +200,6 @@ cooldown_tracker = 0
 asteroid_timer = 0
 highscore = open("highscore.txt","r")
 hs = int(highscore.read())
-# game_over = False
 
 def load_hs():
     global hs
@@ -282,6 +281,7 @@ def redrawGameWindow():
 
     if game_over == True:
         window.blit(text_retry, (scr_width//2 - text_retry.get_width()//2, scr_height//2 - text_retry.get_height()))
+
             
 
     window.blit(text_lives, (25, 25))
@@ -296,6 +296,11 @@ def redrawGameWindow():
 while running == True:
     pygame.time.delay(15)
     clock.tick(60)
+    keys = pygame.key.get_pressed()
+    redrawGameWindow()
+    load_hs()
+    player.player_input()
+    
 
 
     if lives > 0:
@@ -314,10 +319,7 @@ while running == True:
             rand = random.choice([1,1,1,2,2,3])
             asteroids.append(Asteroid(rand))
 
-        player.wrap()
-        # keys = pygame.key.get_pressed()
-        # player.player_input()
-        
+        player.wrap()   
 
         for bullet in bullets:
             bullet.bullet_move()
@@ -325,13 +327,6 @@ while running == True:
         for asteroid in asteroids:
             asteroid.x += asteroid.xvel
             asteroid.y += asteroid.yvel
-
-    keys = pygame.key.get_pressed()
-    player.player_input()
-    print(hs)
-    
-    redrawGameWindow()
-    load_hs()
 
 
     if lives <= 0:
