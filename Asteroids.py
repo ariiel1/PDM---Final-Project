@@ -20,6 +20,8 @@ light_hit_sound = pygame.mixer.Sound("sounds/light_hit.wav")
 damage_sound = pygame.mixer.Sound("sounds/damage.wav")
 
 
+
+
 lives = 3
 score = 0
 game_over = False
@@ -196,7 +198,18 @@ clock = pygame.time.Clock()
 window = pygame.display.set_mode((scr_width,scr_height))
 cooldown_tracker = 0
 asteroid_timer = 0
+highscore = open("highscore.txt","r")
+hs = int(highscore.read())
 # game_over = False
+
+def load_hs():
+    global hs
+    if game_over == True:
+        if score > hs:
+            f = open("highscore.txt","w")
+            f.write(str(score))
+            hs = score
+    
 
 
 def redrawGameWindow():
@@ -207,6 +220,7 @@ def redrawGameWindow():
     text_lives = font.render("LIVES: " + str(lives), 0, (255,255,255))
     text_score = font.render("SCORE: " + str(score), 0, (255,255,255))
     text_retry = font.render("PRESS ENTER TO RETRY OR ESC TO EXIT", 0, (255,255,255))
+    text_hs = font.render("HI SCORE: " + str(hs), 0, (255,255,255))
     player.draw(window)
 
     for bullet in bullets:
@@ -268,9 +282,11 @@ def redrawGameWindow():
 
     if game_over == True:
         window.blit(text_retry, (scr_width//2 - text_retry.get_width()//2, scr_height//2 - text_retry.get_height()))
+            
 
     window.blit(text_lives, (25, 25))
     window.blit(text_score, (scr_width - text_score.get_width() - 25, 25))
+    window.blit(text_hs, (scr_width//2 - text_hs.get_width()//2, 25)) 
               
 
     pygame.display.update()
@@ -312,8 +328,10 @@ while running == True:
 
     keys = pygame.key.get_pressed()
     player.player_input()
+    print(hs)
     
     redrawGameWindow()
+    load_hs()
 
 
     if lives <= 0:
