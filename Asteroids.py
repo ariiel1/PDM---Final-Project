@@ -97,7 +97,7 @@ class Player(object):
         #a timer to stop the bullets from all going out at once super fast if the key is held
         global cooldown_tracker
         cooldown_tracker += clock.get_time()
-        if cooldown_tracker > 300 and keys[pygame.K_SPACE] and game_over == False:
+        if cooldown_tracker > 500 and keys[pygame.K_SPACE] and game_over == False:
             cooldown_tracker = 0
 
         #player inputs
@@ -315,7 +315,7 @@ while running == True:
     if game_over == False:
         #timing asteroid spawns and varying the randomness of different sizes when spawned
         asteroid_timer += clock.get_time()
-        if asteroid_timer % 50 == 0:
+        if asteroid_timer % 25 == 0:
             rand = random.choice([1,1,1,2,2,3])
             asteroids.append(Asteroid(rand))
 
